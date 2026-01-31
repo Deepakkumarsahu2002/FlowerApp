@@ -1,9 +1,14 @@
-import { Address } from "cluster";
-
+// ===============================
 // API Base Configuration
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+// ===============================
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
+console.log("User API Base URL:", API_BASE_URL);
+
+// ===============================
 // API Response Types
+// ===============================
 export interface ApiResponse<T> {
   data?: T;
   message?: string;
@@ -49,7 +54,7 @@ export interface CreateOrderRequest {
   subtotal: number;
   shipping_cost: number;
   total_amount: number;
-  payment_method?: 'cod' | 'online' | 'razorpay'; // Payment method: 'cod' for Cash on Delivery, 'online'/'razorpay' for online payment
+  payment_method?: 'cod' | 'online' | 'razorpay';
   address_id?: string;
   address?: {
     name: string;
@@ -132,29 +137,31 @@ export interface AddressDTO {
   is_default: boolean;
 }
 
-
-// Helper function to get auth token
+// ===============================
+// Helpers
+// ===============================
 const getToken = (): string | null => {
   return localStorage.getItem('token');
 };
 
-// Helper function to get headers
 const getHeaders = (includeAuth = true): HeadersInit => {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
-  
+
   if (includeAuth) {
     const token = getToken();
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
   }
-  
+
   return headers;
 };
 
+// ===============================
 // API Client
+// ===============================
 class ApiClient {
   private baseURL: string;
 
@@ -167,24 +174,30 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
+
     const response = await fetch(url, {
       ...options,
+      credentials: "include", // ✅ REQUIRED FOR CLOUDLFARE + CORS
       headers: {
-        ...getHeaders(options.method !== 'GET' || endpoint.includes('/auth/me')),
+        ...getHeaders(endpoint !== '/auth/login'),
         ...options.headers,
       },
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: 'An error occurred' }));
+      const error = await response
+        .json()
+        .catch(() => ({ message: 'An error occurred' }));
       throw new Error(error.message || `HTTP error! status: ${response.status}`);
     }
 
     return response.json();
   }
 
+  // ===============================
   // Auth APIs
-  async signup(data: { email: string; password: string; name: string; phone?: string }): Promise<ApiResponse<null>> {
+  // ===============================
+  async signup(data: { email: string; password: string; name: string; phone?: string }) {
     return this.request<ApiResponse<null>>('/auth/signup', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -203,20 +216,19 @@ class ApiClient {
   }
 
   async getMyProfile(): Promise<UserProfileResponse> {
-  return this.request<UserProfileResponse>('/users/me');
+    return this.request<UserProfileResponse>('/users/me');
   }
 
   async updateMyProfile(data: { name: string; phone: string }) {
-  return this.request<{ message: string; profile: { name: string; phone: string } }>(
-    '/users/me',
-    {
+    return this.request('/users/me', {
       method: 'PUT',
       body: JSON.stringify(data),
-    }
-  );
+    });
   }
 
-  
+  // ===============================
+  // Address APIs
+  // ===============================
   async addAddress(data: {
     street: string;
     city: string;
@@ -229,10 +241,12 @@ class ApiClient {
     });
   }
 
-  async updateAddress(
-    id: string,
-    data: { street: string; city: string; state: string; pincode: string }
-  ): Promise<AddressDTO> {
+  async updateAddress(id: string, data: {
+    street: string;
+    city: string;
+    state: string;
+    pincode: string;
+  }): Promise<AddressDTO> {
     return this.request<AddressDTO>(`/addresses/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
@@ -240,7 +254,7 @@ class ApiClient {
   }
 
   async deleteAddress(id: string) {
-    return this.request<{ message: string }>(`/addresses/${id}`, {
+    return this.request(`/addresses/${id}`, {
       method: 'DELETE',
     });
   }
@@ -251,7 +265,9 @@ class ApiClient {
     });
   }
 
+  // ===============================
   // Product APIs
+  // ===============================
   async getProducts(): Promise<Product[]> {
     return this.request<Product[]>('/products');
   }
@@ -260,7 +276,9 @@ class ApiClient {
     return this.request<Product>(`/products/${id}`);
   }
 
+  // ===============================
   // Order APIs
+  // ===============================
   async createOrder(data: CreateOrderRequest): Promise<Order> {
     return this.request<Order>('/orders', {
       method: 'POST',
@@ -272,7 +290,9 @@ class ApiClient {
     return this.request<Order[]>('/orders/my');
   }
 
+  // ===============================
   // Payment APIs
+  // ===============================
   async createRazorpayOrder(orderId: string): Promise<RazorpayOrder> {
     return this.request<RazorpayOrder>('/payment/razorpay/create', {
       method: 'POST',
@@ -280,7 +300,7 @@ class ApiClient {
     });
   }
 
-  async verifyRazorpayPayment(data: RazorpayVerifyRequest): Promise<ApiResponse<null>> {
+  async verifyRazorpayPayment(data: RazorpayVerifyRequest) {
     return this.request<ApiResponse<null>>('/payment/razorpay/verify', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -288,5 +308,8 @@ class ApiClient {
   }
 }
 
-// Export singleton instance
+// ===============================
+// Export Singleton
+// ===============================
 export const api = new ApiClient(API_BASE_URL);
+
