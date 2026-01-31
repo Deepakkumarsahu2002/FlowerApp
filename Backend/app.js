@@ -13,7 +13,8 @@ const app = express();
 
 app.use(cors({
   origin: [
-    "https://flowersforever.pages.dev"
+    "https://flowersforever.pages.dev",
+    "https://flowerapp.pages.dev"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
