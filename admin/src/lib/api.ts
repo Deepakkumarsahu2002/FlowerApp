@@ -1,10 +1,12 @@
+// ===============================
 // API Base Configuration
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+// ===============================
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
-// Log API base URL for debugging
-console.log("Admin API Base URL:", API_BASE_URL);
-
+// ===============================
 // API Response Types
+// ===============================
 export interface ApiResponse<T> {
   data?: T;
   message?: string;
@@ -22,6 +24,9 @@ export interface AdminUser {
   role: string;
 }
 
+// ===============================
+// Product Types
+// ===============================
 export interface Product {
   _id: string;
   name: string;
@@ -51,8 +56,12 @@ export interface CreateProductRequest {
   in_stock?: boolean;
 }
 
-export interface UpdateProductRequest extends Partial<CreateProductRequest> {}
+export interface UpdateProductRequest
+  extends Partial<CreateProductRequest> {}
 
+// ===============================
+// Order Types
+// ===============================
 export interface Order {
   _id: string;
   order_number: string;
@@ -62,7 +71,12 @@ export interface Order {
     email: string;
   };
   payment_status: 'pending' | 'paid' | 'failed';
-  order_status: 'created' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+  order_status:
+    | 'created'
+    | 'confirmed'
+    | 'shipped'
+    | 'delivered'
+    | 'cancelled';
   total_amount: number;
   items: Array<{
     product_id: {
@@ -92,28 +106,31 @@ export interface UpdateOrderStatusRequest {
   status: string;
 }
 
-// Helper function to get auth token
+// ===============================
+// Helper Functions
+// ===============================
 const getToken = (): string | null => {
   return localStorage.getItem('adminToken');
 };
 
-// Helper function to get headers
 const getHeaders = (includeAuth = true): HeadersInit => {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
-  
+
   if (includeAuth) {
     const token = getToken();
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
   }
-  
+
   return headers;
 };
 
+// ===============================
 // API Client
+// ===============================
 class ApiClient {
   private baseURL: string;
 
@@ -126,8 +143,8 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
-    // Only login endpoint doesn't need auth, all others do
     const needsAuth = endpoint !== '/auth/login';
+
     const response = await fetch(url, {
       ...options,
       headers: {
@@ -137,19 +154,30 @@ class ApiClient {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: 'An error occurred' }));
-      const errorMessage = error.message || `HTTP error! status: ${response.status}`;
-      const errorWithStatus = new Error(errorMessage);
-      (errorWithStatus as any).status = response.status;
-      (errorWithStatus as any).statusText = response.statusText;
+      const error = await response
+        .json()
+        .catch(() => ({ message: 'An error occurred' }));
+
+      const errorWithStatus: any = new Error(
+        error.message || `HTTP error! status: ${response.status}`
+      );
+
+      errorWithStatus.status = response.status;
+      errorWithStatus.statusText = response.statusText;
+
       throw errorWithStatus;
     }
 
     return response.json();
   }
 
+  // ===============================
   // Auth APIs
-  async login(data: { email: string; password: string }): Promise<LoginResponse> {
+  // ===============================
+  async login(data: {
+    email: string;
+    password: string;
+  }): Promise<LoginResponse> {
     return this.request<LoginResponse>('/auth/login', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -160,7 +188,9 @@ class ApiClient {
     return this.request<AdminUser>('/auth/me');
   }
 
+  // ===============================
   // Product APIs
+  // ===============================
   async getProducts(): Promise<Product[]> {
     return this.request<Product[]>('/products');
   }
@@ -169,54 +199,85 @@ class ApiClient {
     return this.request<Product>(`/products/${id}`);
   }
 
-  async createProduct(data: CreateProductRequest): Promise<Product> {
+  async createProduct(
+    data: CreateProductRequest
+  ): Promise<Product> {
     return this.request<Product>('/products', {
       method: 'POST',
       body: JSON.stringify(data),
     });
   }
 
-  async updateProduct(id: string, data: UpdateProductRequest): Promise<Product> {
+  async updateProduct(
+    id: string,
+    data: UpdateProductRequest
+  ): Promise<Product> {
     return this.request<Product>(`/products/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     });
   }
 
-  async deleteProduct(id: string): Promise<ApiResponse<null>> {
-    return this.request<ApiResponse<null>>(`/products/${id}`, {
-      method: 'DELETE',
-    });
+  async deleteProduct(
+    id: string
+  ): Promise<ApiResponse<null>> {
+    return this.request<ApiResponse<null>>(
+      `/products/${id}`,
+      { method: 'DELETE' }
+    );
   }
 
+  // ===============================
   // Order APIs
+  // ===============================
   async getOrders(): Promise<Order[]> {
     return this.request<Order[]>('/orders');
   }
 
-  async updateOrderStatus(id: string, data: UpdateOrderStatusRequest): Promise<Order> {
+  async updateOrderStatus(
+    id: string,
+    data: UpdateOrderStatusRequest
+  ): Promise<Order> {
     return this.request<Order>(`/orders/${id}/status`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
   }
 
-    async updatePaymentStatus(id: string, data: UpdateOrderStatusRequest): Promise<Order> {
-    return this.request<Order>(`/orders/${id}/cod-payment`, {
-      method: 'PATCH',
-      body: JSON.stringify(data),
-    });
+  async updatePaymentStatus(
+    id: string,
+    data: UpdateOrderStatusRequest
+  ): Promise<Order> {
+    return this.request<Order>(
+      `/orders/${id}/cod-payment`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+      }
+    );
   }
 
+  // ===============================
   // Category & Occasion APIs
-  async getCategories(): Promise<Array<{ _id: string; name: string }>> {
-    return this.request<Array<{ _id: string; name: string }>>('/categories');
+  // ===============================
+  async getCategories(): Promise<
+    Array<{ _id: string; name: string }>
+  > {
+    return this.request<Array<{ _id: string; name: string }>>(
+      '/categories'
+    );
   }
 
-  async getOccasions(): Promise<Array<{ _id: string; name: string }>> {
-    return this.request<Array<{ _id: string; name: string }>>('/occasions');
+  async getOccasions(): Promise<
+    Array<{ _id: string; name: string }>
+  > {
+    return this.request<Array<{ _id: string; name: string }>>(
+      '/occasions'
+    );
   }
 }
 
-// Export singleton instance
+// ===============================
+// Export Singleton
+// ===============================
 export const api = new ApiClient(API_BASE_URL);
