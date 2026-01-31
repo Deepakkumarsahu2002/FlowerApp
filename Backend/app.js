@@ -11,7 +11,14 @@ const addressRoutes = require('./routes/address.routes');
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://flowersforever.pages.dev"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
