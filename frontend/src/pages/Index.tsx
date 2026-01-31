@@ -56,28 +56,30 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ================= FEATURES ================= */}
-      <section className="py-12 bg-muted">
+      {/* ================= FEATURED PRODUCTS ================= */}
+      <section className="py-16 md:py-24">
         <div className="container px-4 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { icon: Truck, title: 'Fast Delivery', desc: 'Pan India Delivery within 5-7 Days.' },
-              { icon: Shield, title: 'Stays Forever', desc: 'Forever Lasting promise on all Bouquets.' },
-              { icon: Heart, title: 'Crafted with Love', desc: 'Each bouquet is handcrafted by us.' },
-            ].map((feature, idx) => (
-              <div key={idx} className="flex items-center gap-4 p-4">
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <feature.icon className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-display font-semibold text-foreground">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {feature.desc}
-                  </p>
-                </div>
-              </div>
+          <div className="flex items-center justify-between mb-12">
+            <div>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2">
+                Bestsellers
+              </h2>
+              <p className="text-muted-foreground">
+                Our most loved arrangements
+              </p>
+            </div>
+
+            <Link to="/categories">
+              <Button variant="outline">
+                View All
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </div>
@@ -135,30 +137,28 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ================= FEATURED PRODUCTS ================= */}
-      <section className="py-16 md:py-24">
+      {/* ================= FEATURES ================= */}
+      <section className="py-12 bg-muted">
         <div className="container px-4 md:px-8">
-          <div className="flex items-center justify-between mb-12">
-            <div>
-              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2">
-                Bestsellers
-              </h2>
-              <p className="text-muted-foreground">
-                Our most loved arrangements
-              </p>
-            </div>
-
-            <Link to="/categories">
-              <Button variant="outline">
-                View All
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Button>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { icon: Truck, title: 'Fast Delivery', desc: 'Pan India Delivery within 5-7 Days.' },
+              { icon: Shield, title: 'Stays Forever', desc: 'Forever Lasting promise on all Bouquets.' },
+              { icon: Heart, title: 'Crafted with Love', desc: 'Each bouquet is handcrafted by us.' },
+            ].map((feature, idx) => (
+              <div key={idx} className="flex items-center gap-4 p-4">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                  <feature.icon className="h-6 w-6 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-display font-semibold text-foreground">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {feature.desc}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
