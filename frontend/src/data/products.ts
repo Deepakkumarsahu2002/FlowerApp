@@ -164,18 +164,16 @@ export const products: Product[] = [
 ];
 
 export const categories = [
-  { id: 'jumbo-bouquet', name: 'Bouquet', description: 'Make a grand statement', icon: '💐' },
-  { id: 'small-bouquet', name: 'Small Bouquet', description: 'Perfect everyday gestures', icon: '🌸' },
-  { id: 'mini-bouquets', name: 'Mini Bouquets', description: 'Small but meaningful', icon: '🌷' },
-  { id: 'custom-bouquet', name: 'Custom Bouquet', description: 'Design your own', icon: '✨' },
-  { id: 'flower-pots', name: 'Flower Pots', description: 'Long-lasting beauty', icon: '🪴' },
+  { id: 'jumbo-bouquet', name: 'Jumbo Bouquet', description: 'Make a grand statement'},
+  { id: 'small-bouquet', name: 'Small Bouquet', description: 'Perfect everyday gestures'},
+  { id: 'mini-bouquets', name: 'Mini Bouquets', description: 'Small but meaningful'},
+  { id: 'custom-bouquet', name: 'Custom Bouquet', description: 'Design your own'},
+  { id: 'flower-pots', name: 'Flower Pots', description: 'Long-lasting beauty'},
 ];
 
 export const occasions = [
-  { id: 'anniversary', name: 'Anniversary', emoji: '💕' },
+  { id: 'anniversary', name: 'loved One', emoji: '💕' },
   { id: 'birthday', name: 'Birthday', emoji: '🎂' },
-  { id: 'valentines', name: "Valentine's Day", emoji: '❤️' },
   { id: 'sorry', name: 'Sorry', emoji: '🙏' },
   { id: 'congratulations', name: 'Congratulations', emoji: '🎉' },
-  { id: 'get-well', name: 'Get Well Soon', emoji: '💚' },
 ];
