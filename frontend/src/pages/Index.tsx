@@ -15,42 +15,47 @@ const Index = () => {
 
   return (
     <div className="animate-fade-in">
+      
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center">
-        <div className="absolute inset-0">
-          <img
-            src={heroImage}
-            alt="Beautiful flower bouquet"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-transparent" />
-        </div>
-        <div className="container relative px-4 md:px-8 py-20">
-          <div className="max-w-2xl animate-slide-up">
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight mb-6">
-              Flower Bouquets, <br />
-              <span className="text-primary">That stays Forever</span>
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-lg">
-              Handcrafted bouquets for every occasion. From grand gestures to everyday joy, 
-              we bring it to your doorstep.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/categories">
-                <Button variant="hero" size="xl">
-                  Shop Now
-                  <ArrowRight className="h-5 w-5 ml-2" />
-                </Button>
-              </Link>
-              <Link to="/category/custom-bouquet">
-                <Button variant="outline" size="xl">
-                  Create Custom Bouquet
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+<section className="relative min-h-[65vh] sm:min-h-[75vh] lg:min-h-[85vh] flex items-center">
+  <div className="absolute inset-0">
+    <img
+      src={heroImage}
+      alt="Beautiful flower bouquet"
+      className="w-full h-full object-cover"
+    />
+    <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-transparent" />
+  </div>
+
+  <div className="container relative px-4 md:px-8 py-12 sm:py-16 lg:py-20">
+    <div className="max-w-2xl animate-slide-up">
+      <h1 className="font-display text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight mb-4 sm:mb-6">
+        Flower Bouquets, <br />
+        <span className="text-primary">That stays Forever</span>
+      </h1>
+
+      <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 max-w-lg">
+        Handcrafted bouquets for every occasion. From grand gestures to everyday joy,
+        we bring it to your doorstep.
+      </p>
+
+      <div className="flex flex-col sm:flex-row gap-4">
+        <Link to="/categories">
+          <Button variant="hero" size="xl" className="w-full sm:w-auto">
+            Shop Now
+            <ArrowRight className="h-5 w-5 ml-2" />
+          </Button>
+        </Link>
+
+        <Link to="/category/custom-bouquet">
+          <Button variant="outline" size="xl" className="w-full sm:w-auto">
+            Create Custom Bouquet
+          </Button>
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Features */}
       <section className="py-12 bg-muted">
