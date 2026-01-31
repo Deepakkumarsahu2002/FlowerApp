@@ -1,15 +1,10 @@
-// ===============================
 // API Base Configuration
-// ===============================
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 // Log API base URL for debugging
 console.log("Admin API Base URL:", API_BASE_URL);
 
-// ===============================
 // API Response Types
-// ===============================
 export interface ApiResponse<T> {
   data?: T;
   message?: string;
@@ -97,31 +92,28 @@ export interface UpdateOrderStatusRequest {
   status: string;
 }
 
-// ===============================
-// Helpers
-// ===============================
+// Helper function to get auth token
 const getToken = (): string | null => {
   return localStorage.getItem('adminToken');
 };
 
+// Helper function to get headers
 const getHeaders = (includeAuth = true): HeadersInit => {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
-
+  
   if (includeAuth) {
     const token = getToken();
     if (token) {
       headers['Authorization'] = `Bearer ${token}`;
     }
   }
-
+  
   return headers;
 };
 
-// ===============================
 // API Client
-// ===============================
 class ApiClient {
   private baseURL: string;
 
@@ -134,11 +126,10 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const url = `${this.baseURL}${endpoint}`;
+    // Only login endpoint doesn't need auth, all others do
     const needsAuth = endpoint !== '/auth/login';
-
     const response = await fetch(url, {
       ...options,
-      credentials: "include", // ✅ REQUIRED for Cloudflare + CORS
       headers: {
         ...getHeaders(needsAuth),
         ...options.headers,
@@ -146,18 +137,18 @@ class ApiClient {
     });
 
     if (!response.ok) {
-      const error = await response
-        .json()
-        .catch(() => ({ message: 'An error occurred' }));
-      throw new Error(error.message || `HTTP error! status: ${response.status}`);
+      const error = await response.json().catch(() => ({ message: 'An error occurred' }));
+      const errorMessage = error.message || `HTTP error! status: ${response.status}`;
+      const errorWithStatus = new Error(errorMessage);
+      (errorWithStatus as any).status = response.status;
+      (errorWithStatus as any).statusText = response.statusText;
+      throw errorWithStatus;
     }
 
     return response.json();
   }
 
-  // ===============================
   // Auth APIs
-  // ===============================
   async login(data: { email: string; password: string }): Promise<LoginResponse> {
     return this.request<LoginResponse>('/auth/login', {
       method: 'POST',
@@ -169,9 +160,7 @@ class ApiClient {
     return this.request<AdminUser>('/auth/me');
   }
 
-  // ===============================
   // Product APIs
-  // ===============================
   async getProducts(): Promise<Product[]> {
     return this.request<Product[]>('/products');
   }
@@ -200,36 +189,26 @@ class ApiClient {
     });
   }
 
-  // ===============================
   // Order APIs
-  // ===============================
   async getOrders(): Promise<Order[]> {
     return this.request<Order[]>('/orders');
   }
 
-  async updateOrderStatus(
-    id: string,
-    data: UpdateOrderStatusRequest
-  ): Promise<Order> {
+  async updateOrderStatus(id: string, data: UpdateOrderStatusRequest): Promise<Order> {
     return this.request<Order>(`/orders/${id}/status`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
   }
 
-  async updatePaymentStatus(
-    id: string,
-    data: UpdateOrderStatusRequest
-  ): Promise<Order> {
+    async updatePaymentStatus(id: string, data: UpdateOrderStatusRequest): Promise<Order> {
     return this.request<Order>(`/orders/${id}/cod-payment`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     });
   }
 
-  // ===============================
   // Category & Occasion APIs
-  // ===============================
   async getCategories(): Promise<Array<{ _id: string; name: string }>> {
     return this.request<Array<{ _id: string; name: string }>>('/categories');
   }
@@ -239,7 +218,5 @@ class ApiClient {
   }
 }
 
-// ===============================
-// Export Singleton
-// ===============================
+// Export singleton instance
 export const api = new ApiClient(API_BASE_URL);
