@@ -6,7 +6,8 @@ import { ProductCard } from '@/components/ProductCard';
 import { categories, occasions } from '@/data/products';
 import { useProducts } from '@/hooks/useProducts';
 import { ArrowRight, Truck, Shield, Heart } from 'lucide-react';
-import heroImage from '@/assets/hero-flowers.jpg';
+import heroDesktop from '@/assets/hero-flowers.jpg';
+import heroMobile from '@/assets/hero-flowers-mobile.jpg';
 import { Category } from '@/types';
 
 const Index = () => {
@@ -18,11 +19,21 @@ const Index = () => {
       {/* ================= HERO SECTION ================= */}
       <section className="relative min-h-[65vh] sm:min-h-[75vh] lg:min-h-[85vh] flex items-center">
         <div className="absolute inset-0">
-          <img
-            src={heroImage}
-            alt="Beautiful flower bouquet"
-            className="w-full h-full object-cover"
-          />
+          <picture>
+            {/* Desktop image */}
+            <source
+              srcSet={heroDesktop}
+              media="(min-width: 768px)"
+            />
+
+            {/* Mobile image (default) */}
+            <img
+              src={heroMobile}
+              alt="Beautiful flower bouquet"
+              className="w-full h-full object-cover"
+            />
+          </picture>
+
           <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-transparent" />
         </div>
 
