@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
   name: String,
   price: Number,
-  image: String,
-  description: String,
+  images: {type: [String],required: true,},
+description: String,
   in_stock: { type: Boolean, default: true },
   category_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Category' },
   occasions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Occasion' }]
