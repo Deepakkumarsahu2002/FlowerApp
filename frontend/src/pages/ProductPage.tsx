@@ -42,6 +42,8 @@ export default function ProductPage() {
     );
   }
 
+  const productImage = product.image;
+
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
       addToCart(product);
@@ -65,19 +67,13 @@ export default function ProductPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
 
-          {/* IMAGE CARD (UPDATED FOR MULTIPLE IMAGES) */}
+          {/* IMAGE CARD */}
           <div className="rounded-3xl overflow-hidden shadow-xl bg-background">
-            <div className="flex overflow-x-auto snap-x snap-mandatory">
-              {product.images.map((img: string, index: number) => (
-                <div key={index} className="min-w-full snap-center">
-                  <img
-                    src={img}
-                    alt={`${product.name} ${index + 1}`}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-              ))}
-            </div>
+            <img
+              src={productImage}
+              alt={product.name}
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+            />
           </div>
 
           {/* DETAILS CARD */}
@@ -107,7 +103,7 @@ export default function ProductPage() {
             <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl w-fit">
               <Check className="h-5 w-5" />
               <span className="text-sm font-medium">
-                In Stock
+                In Stock 
               </span>
             </div>
 
@@ -154,7 +150,9 @@ export default function ProductPage() {
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  onClick={() =>
+                    setQuantity(Math.max(1, quantity - 1))
+                  }
                 >
                   <Minus className="h-4 w-4" />
                 </Button>

@@ -8,16 +8,9 @@ export function convertApiProductToAdmin(apiProduct: ApiProduct): AdminProduct {
     id: apiProduct._id,
     name: apiProduct.name,
     price: apiProduct.price,
-
-    // ✅ FIX: take images directly from API product
-    images: apiProduct.images,
-
-    // Use category name
-    category: apiProduct.category_id.name,
-
-    // Use occasion names
-    occasions: apiProduct.occasions.map((occ) => occ.name),
-
+    image: apiProduct.image,
+    category: apiProduct.category_id.name, // Use category name
+    occasions: apiProduct.occasions.map(occ => occ.name), // Use occasion names
     description: apiProduct.description,
     inStock: apiProduct.in_stock,
     createdAt: apiProduct.createdAt || new Date().toISOString(),
@@ -32,7 +25,7 @@ export function convertAdminProductToApi(
   formData: {
     name: string;
     price: string;
-    images: string[];
+    image: string;
     category: string;
     occasions: string[];
     description: string;
@@ -44,20 +37,10 @@ export function convertAdminProductToApi(
   return {
     name: formData.name,
     price: parseFloat(formData.price),
-
-    // ✅ FIX: send images array to backend
-    images: formData.images.length
-      ? formData.images
-      : ['https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400'],
-
+    image: formData.image || 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400',
     description: formData.description,
-
-    // Use ID if provided, otherwise assume it's already an ID
-    category_id: categoryId || formData.category,
-
-    // Use IDs if provided, otherwise assume they're IDs
-    occasions: occasionIds || formData.occasions,
-
+    category_id: categoryId || formData.category, // Use ID if provided, otherwise assume it's an ID
+    occasions: occasionIds || formData.occasions, // Use IDs if provided, otherwise assume they're IDs
     in_stock: formData.inStock,
   };
 }

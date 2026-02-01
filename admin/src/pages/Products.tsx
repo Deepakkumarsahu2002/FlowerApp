@@ -54,7 +54,7 @@ export default function Products() {
   const [formData, setFormData] = useState({
     name: "",
     price: "",
-    images: [] as string[],
+    image: "",
     category: "",
     occasions: [] as string[],
     description: "",
@@ -134,7 +134,7 @@ export default function Products() {
       setFormData({
         name: product.name,
         price: product.price.toString(),
-        images: product.images,
+        image: product.image,
         category: product.category, // This is the category name
         occasions: product.occasions, // These are occasion names
         description: product.description,
@@ -145,7 +145,7 @@ export default function Products() {
       setFormData({
         name: "",
         price: "",
-        images: [],
+        image: "",
         category: "",
         occasions: [],
         description: "",
@@ -251,7 +251,7 @@ export default function Products() {
       render: (product) => (
         <div className="flex items-center gap-3">
           <img
-            src={product.images[0] }
+            src={product.image}
             alt={product.name}
             className="h-12 w-12 rounded-lg object-cover"
           />
@@ -437,21 +437,13 @@ export default function Products() {
               </div>
 
               <div className="space-y-2">
-                <Label>Image URLs (comma separated)</Label>
-<Textarea
-  value={formData.images.join(", ")}
-  onChange={(e) =>
-    setFormData({
-      ...formData,
-      images: e.target.value
-        .split(",")
-        .map((url) => url.trim())
-        .filter(Boolean),
-    })
-  }
-  placeholder="https://img1.jpg, https://img2.jpg"
-/>
-
+                <Label htmlFor="image">Image URL</Label>
+                <Input
+                  id="image"
+                  value={formData.image}
+                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                  placeholder="https://..."
+                />
               </div>
 
               <div className="space-y-2">

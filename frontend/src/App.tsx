@@ -6,8 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { Layout } from "@/components/Layout";
-import ScrollToTop from "@/components/ScrollToTop"; // ✅ ADD THIS
-
 import Index from "./pages/Index";
 import AuthPage from "./pages/AuthPage";
 import CategoriesPage from "./pages/CategoriesPage";
@@ -32,35 +30,16 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <ScrollToTop /> {/* ✅ ADD THIS */}
             <Routes>
               <Route path="/auth" element={<AuthPage />} />
-              <Route
-                path="/order-confirmation"
-                element={<OrderConfirmationPage />}
-              />
+              <Route path="/order-confirmation" element={<OrderConfirmationPage />} />
               <Route path="/" element={<Layout><Index /></Layout>} />
-              <Route
-                path="/categories"
-                element={<Layout><CategoriesPage /></Layout>}
-              />
-              <Route
-                path="/category/:id"
-                element={<Layout><CategoryPage /></Layout>}
-              />
-              <Route
-                path="/occasion/:id"
-                element={<Layout><OccasionPage /></Layout>}
-              />
-              <Route
-                path="/product/:id"
-                element={<Layout><ProductPage /></Layout>}
-              />
+              <Route path="/categories" element={<Layout><CategoriesPage /></Layout>} />
+              <Route path="/category/:id" element={<Layout><CategoryPage /></Layout>} />
+              <Route path="/occasion/:id" element={<Layout><OccasionPage /></Layout>} />
+              <Route path="/product/:id" element={<Layout><ProductPage /></Layout>} />
               <Route path="/cart" element={<Layout><CartPage /></Layout>} />
-              <Route
-                path="/checkout"
-                element={<Layout><CheckoutPage /></Layout>}
-              />
+              <Route path="/checkout" element={<Layout><CheckoutPage /></Layout>} />
               <Route path="/about" element={<Layout><AboutPage /></Layout>} />
               <Route path="/contact" element={<Layout><ContactPage /></Layout>} />
               <Route path="/profile" element={<Layout><ProfilePage /></Layout>} />

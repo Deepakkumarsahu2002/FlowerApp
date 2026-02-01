@@ -1,8 +1,5 @@
 import { Heart, Award, Leaf, Users } from 'lucide-react';
 import heroImage from '@/assets/hero-flowers.jpg';
-import pratikshaImg from "@/assets/pratiksha.jpg";
-import deepakImg from "@/assets/deepak.jpg";
-
 
 export default function AboutPage() {
   return (
@@ -107,12 +104,12 @@ export default function AboutPage() {
               {
                 name: 'Pratiksha',
                 role: 'Founder & Creator',
-                image: pratikshaImg,
+                image: '/src/assets/pratiksha.jpg',
               },
               {
                 name: 'Deepak',
                 role: 'Technology & Growth',
-                image: deepakImg,
+                image: '/src/assets/deepak.jpg',
               },
             ].map((member, idx) => (
               <div key={idx} className="bg-card rounded-xl p-6 shadow-soft">
