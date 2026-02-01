@@ -31,7 +31,7 @@ export interface Product {
   _id: string;
   name: string;
   price: number;
-  image: string;
+  images: string[];
   description: string;
   in_stock: boolean;
   category_id: {
@@ -49,7 +49,7 @@ export interface Product {
 export interface CreateProductRequest {
   name: string;
   price: number;
-  image: string;
+  images: string[];
   description: string;
   category_id: string;
   occasions: string[];
