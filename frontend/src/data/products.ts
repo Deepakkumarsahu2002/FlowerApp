@@ -167,7 +167,7 @@ export const categories = [
   { id: 'jumbo-bouquet', name: 'Jumbo Bouquet', description: 'Make a grand statement'},
   { id: 'small-bouquet', name: 'Small Bouquet', description: 'Perfect everyday gestures'},
   { id: 'mini-bouquets', name: 'Mini Bouquets', description: 'Small but meaningful'},
-  { id: 'custom-bouquet', name: 'Custom Bouquet', description: 'Design your own'},
+  { id: 'custom-bouquet', name: 'Custom Bouquet', description: 'Something different from ordinary'},
   { id: 'flower-pots', name: 'Flower Pots', description: 'Long-lasting beauty'},
 ];
 
