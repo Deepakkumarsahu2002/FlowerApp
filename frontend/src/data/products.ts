@@ -1,7 +1,7 @@
 import { Product } from '@/types';
 import jumboBouquet from '@/assets/jumbo-bouquet.jpg';
 import smallBouquet from '@/assets/small-bouquet.jpg';
-import miniBouquet from '@/assets/mini-bouquet.jpg';
+import miniBouquet from '@/assets/mini-bouquet.jpeg';
 import customBouquet from '@/assets/custom-bouquet.jpg';
 import flowerPot from '@/assets/flower-pot.jpg';
 
