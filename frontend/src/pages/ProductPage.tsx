@@ -99,9 +99,12 @@ export default function ProductPage() {
 
             {/* PRICE */}
             <div className="flex flex-col gap-1">
-              <span className="text-base text-muted-foreground line-through">
-                ₹{mrp.toLocaleString()}
-              </span>
+  <div className="flex items-center gap-2 text-base text-muted-foreground">
+    <span>MRP</span>
+    <span className="line-through">
+      ₹{mrp.toLocaleString()}
+    </span>
+  </div>
 
               <p className="text-4xl font-extrabold text-primary">
                 ₹{sellingPrice.toLocaleString()}

@@ -45,10 +45,13 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="flex items-center justify-between pt-2">
           {/* ✅ MRP (struck) + Selling Price */}
-          <div className="flex flex-col">
-            <span className="text-sm text-muted-foreground line-through">
-              ₹{mrp.toLocaleString()}
-            </span>
+          <div className="flex flex-col gap-1">
+           <div className="flex items-center gap-2 text-base text-muted-foreground">
+            <span>MRP</span>
+             <span className="line-through">
+             ₹{mrp.toLocaleString()}
+             </span>
+             </div>
 
             <span className="font-price text-xl font-bold text-primary">
               ₹{sellingPrice.toLocaleString()}
