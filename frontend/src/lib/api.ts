@@ -11,6 +11,11 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
+export interface SignupResponse extends ApiResponse<null> {
+  emailVerificationRequired?: boolean;
+  devEmailCode?: string;
+}
+
 export interface LoginResponse {
   token: string;
 }
@@ -20,6 +25,8 @@ export interface User {
   email: string;
   name: string;
   phone?: string;
+  email_verified?: boolean;
+  phone_verified?: boolean;
 }
 
 export interface Product {
@@ -185,8 +192,8 @@ class ApiClient {
   }
 
   // Auth APIs
-  async signup(data: { email: string; password: string; name: string; phone?: string }): Promise<ApiResponse<null>> {
-    return this.request<ApiResponse<null>>('/auth/signup', {
+  async signup(data: { email: string; password: string; name: string; phone?: string }): Promise<SignupResponse> {
+    return this.request<SignupResponse>('/auth/signup', {
       method: 'POST',
       body: JSON.stringify(data),
     });
@@ -194,6 +201,34 @@ class ApiClient {
 
   async login(data: { email: string; password: string }): Promise<LoginResponse> {
     return this.request<LoginResponse>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async requestEmailVerification(data: { email: string }): Promise<ApiResponse<null>> {
+    return this.request<ApiResponse<null>>('/auth/request-email-verification', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async verifyEmail(data: { email: string; code: string }): Promise<ApiResponse<null>> {
+    return this.request<ApiResponse<null>>('/auth/verify-email', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async requestPhoneOtp(data: { phone: string }): Promise<ApiResponse<null>> {
+    return this.request<ApiResponse<null>>('/auth/request-phone-otp', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async verifyPhoneOtp(data: { phone: string; code: string }): Promise<ApiResponse<null>> {
+    return this.request<ApiResponse<null>>('/auth/verify-phone-otp', {
       method: 'POST',
       body: JSON.stringify(data),
     });

@@ -22,6 +22,9 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  phone?: string;
+  emailVerified?: boolean;
+  phoneVerified?: boolean;
 }
 
 export interface Order {
