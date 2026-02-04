@@ -44,6 +44,14 @@ export default function ProductPage() {
 
   const productImage = product.image;
 
+  // 🔹 Frontend-only pricing logic
+  const sellingPrice: number = product.price;
+  const markupPercentage: number = 30;
+
+  const mrp: number = Math.round(
+    sellingPrice + (sellingPrice * markupPercentage) / 100
+  );
+
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
       addToCart(product);
@@ -90,9 +98,15 @@ export default function ProductPage() {
             </div>
 
             {/* PRICE */}
-            <p className="text-4xl font-extrabold text-primary">
-              ₹{product.price.toLocaleString()}
-            </p>
+            <div className="flex flex-col gap-1">
+              <span className="text-base text-muted-foreground line-through">
+                ₹{mrp.toLocaleString()}
+              </span>
+
+              <p className="text-4xl font-extrabold text-primary">
+                ₹{sellingPrice.toLocaleString()}
+              </p>
+            </div>
 
             {/* DESCRIPTION */}
             <p className="text-muted-foreground leading-relaxed text-sm">
@@ -103,7 +117,7 @@ export default function ProductPage() {
             <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-xl w-fit">
               <Check className="h-5 w-5" />
               <span className="text-sm font-medium">
-                In Stock 
+                In Stock
               </span>
             </div>
 
