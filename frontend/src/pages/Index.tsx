@@ -56,12 +56,6 @@ const Index = () => {
                   <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>
               </Link>
-
-              <Link to="/category/custom-bouquet">
-                <Button variant="outline" size="xl" className="w-full sm:w-auto">
-                  Create Custom Bouquet
-                </Button>
-              </Link>
             </div>
           </div>
         </div>
@@ -179,17 +173,16 @@ const Index = () => {
       <section className="py-16 md:py-24 bg-primary text-primary-foreground">
         <div className="container px-4 md:px-8 text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-            Need Something Special?
+            Need Some Help?
           </h2>
 
           <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8">
-            Our florists can create custom arrangements tailored to your preferences.
-            Let us bring your vision to life.
+            Our floral experts are here to assist you.
           </p>
 
           <Link to="/category/custom-bouquet">
             <Button variant="secondary" size="xl">
-              Create Custom Bouquet
+              Text Us we will help you out.
               <ArrowRight className="h-5 w-5 ml-2" />
             </Button>
           </Link>
