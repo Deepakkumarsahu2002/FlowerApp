@@ -4,7 +4,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
-import { toast } from 'sonner';
 
 export default function ContactPage() {
   const [loading, setLoading] = useState(false);
@@ -16,21 +15,46 @@ export default function ContactPage() {
     message: '',
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // ✅ UPDATED: Redirects directly to WhatsApp
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
-    // Simulate form submission
-    setTimeout(() => {
-      toast.success('Thank you! We\'ll get back to you soon.');
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-      setLoading(false);
-    }, 1000);
+
+    const whatsappNumber = '917655042406'; // no +, no spaces
+
+    const message = `
+New Contact Message 🌸
+
+Name: ${formData.name}
+Email: ${formData.email}
+Phone: ${formData.phone || 'Not provided'}
+Subject: ${formData.subject}
+
+Message:
+${formData.message}
+    `;
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+
+    window.open(whatsappUrl, '_blank');
+
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      subject: '',
+      message: '',
+    });
+
+    setLoading(false);
   };
 
   return (
@@ -89,9 +113,13 @@ export default function ContactPage() {
                       <item.icon className="h-5 w-5 text-primary" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-foreground mb-1">{item.title}</h3>
+                      <h3 className="font-medium text-foreground mb-1">
+                        {item.title}
+                      </h3>
                       {item.lines.map((line, i) => (
-                        <p key={i} className="text-sm text-muted-foreground">{line}</p>
+                        <p key={i} className="text-sm text-muted-foreground">
+                          {line}
+                        </p>
                       ))}
                     </div>
                   </div>
@@ -105,7 +133,7 @@ export default function ContactPage() {
                 <h2 className="font-display text-2xl font-bold text-foreground mb-6">
                   Send us a Message
                 </h2>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -171,8 +199,13 @@ export default function ContactPage() {
                     />
                   </div>
 
-                  <Button type="submit" size="lg" className="w-full md:w-auto" disabled={loading}>
-                    {loading ? 'Sending...' : (
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full md:w-auto"
+                    disabled={loading}
+                  >
+                    {loading ? 'Redirecting…' : (
                       <>
                         <Send className="h-4 w-4 mr-2" />
                         Send Message
