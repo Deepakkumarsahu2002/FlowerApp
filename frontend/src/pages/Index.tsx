@@ -180,7 +180,7 @@ const Index = () => {
             Our floral experts are here to assist you.
           </p>
 
-          <Link to="/category/custom-bouquet">
+          <Link to="/contact">
             <Button variant="secondary" size="xl">
               Text Us we will help you out.
               <ArrowRight className="h-5 w-5 ml-2" />
