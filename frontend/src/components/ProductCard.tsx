@@ -11,6 +11,14 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
 
+  // 🔹 Frontend-only pricing logic
+  const sellingPrice: number = product.price;
+  const markupPercentage: number = 20;
+
+  const mrp: number = Math.round(
+    sellingPrice + (sellingPrice * markupPercentage) / 100
+  );
+
   return (
     <div className="group bg-card rounded-2xl overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-300">
       <Link
@@ -36,10 +44,16 @@ export function ProductCard({ product }: ProductCardProps) {
         </p>
 
         <div className="flex items-center justify-between pt-2">
-          {/* ✅ PRICE FONT FIXED */}
-          <span className="font-price text-xl font-bold text-primary">
-            ₹{product.price.toLocaleString()}
-          </span>
+          {/* ✅ MRP (struck) + Selling Price */}
+          <div className="flex flex-col">
+            <span className="text-sm text-muted-foreground line-through">
+              ₹{mrp.toLocaleString()}
+            </span>
+
+            <span className="font-price text-xl font-bold text-primary">
+              ₹{sellingPrice.toLocaleString()}
+            </span>
+          </div>
 
           <Button
             size="sm"
