@@ -10,11 +10,6 @@ const bcrypt = require('bcrypt');
 
 // Seed data
 const categories = [
-  { name: 'Bouquets' },
-  { name: 'Plants' },
-  { name: 'Arrangements' },
-  { name: 'Baskets' },
-  { name: 'Dried Flowers' },
   { name: 'Jumbo Bouquet' },
   { name: 'Small Bouquet' },
   { name: 'Mini Bouquets' },
@@ -25,15 +20,7 @@ const categories = [
 const occasions = [
   { name: 'Birthday' },
   { name: 'Anniversary' },
-  { name: "Valentine's Day" },
-  { name: 'Get Well' },
-  { name: 'Thank You' },
-  { name: 'Corporate' },
-  { name: 'Housewarming' },
-  { name: 'Sympathy' },
-  { name: 'Funeral' },
   { name: 'Congratulations' },
-  { name: 'Home Decor' },
   { name: 'Sorry' },
 ];
 
@@ -69,7 +56,7 @@ const seedDatabase = async () => {
     // Seed Admin User
     console.log('\nSeeding admin user...');
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@flowersforever.com';
-    const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'pratiksha123';
     const adminName = process.env.ADMIN_NAME || 'Admin User';
 
     let adminUser = await User.findOne({ email: adminEmail });
