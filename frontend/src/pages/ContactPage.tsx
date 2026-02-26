@@ -100,7 +100,7 @@ ${formData.message}
                   {
                     icon: Mail,
                     title: 'Email Us',
-                    lines: ['hello@flowersforever.com', 'orders@flowersforever.com'],
+                    lines: ['Flowersforeverofficial@gmail.com'],
                   },
                   {
                     icon: Clock,
